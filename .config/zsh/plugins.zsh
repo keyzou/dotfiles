@@ -6,6 +6,8 @@ zinit ice as"command" from"gh-r" \
           atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+
 # completions, hightlighting & suggestions
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
