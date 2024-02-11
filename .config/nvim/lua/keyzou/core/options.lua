@@ -2,7 +2,7 @@ local opt = vim.opt
 
 opt.termguicolors = true
 -- line numbers
-opt.relativenumber = false
+opt.relativenumber = true
 opt.number = true
 
 -- tabs & indentation
