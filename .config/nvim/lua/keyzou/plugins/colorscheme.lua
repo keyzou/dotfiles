@@ -11,6 +11,7 @@ return {
 					lsp_saga = true,
 					mason = true,
 					which_key = true,
+					notify = true,
 				},
 			})
 		end,

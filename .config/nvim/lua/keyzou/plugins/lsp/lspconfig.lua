@@ -77,6 +77,16 @@ return {
 		})
 
 		-- configure typescript server with plugin
+		lspconfig["tsserver"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig["eslint"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
 		lspconfig["biome"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
@@ -88,10 +98,12 @@ return {
 			on_attach = on_attach,
 		})
 
+		local tw = require("lspconfig.server_configurations.tailwindcss")
 		-- configure tailwindcss server
 		lspconfig["tailwindcss"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+			filetypes = tw.default_config.filetypes,
 		})
 
 		-- configure svelte server

@@ -27,11 +27,12 @@ return {
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
-				"biome",
+				"tsserver",
 				"html",
 				"cssls",
 				"tailwindcss",
 				"svelte",
+				"eslint",
 				"lua_ls",
 				"graphql",
 				"emmet_ls",
@@ -46,7 +47,8 @@ return {
 			ensure_installed = {
 				"stylua", -- lua formatter
 				"ruff",
-				"biome", -- js linter & formatter
+				"prettier",
+				"eslint_d",
 			},
 		})
 	end,
