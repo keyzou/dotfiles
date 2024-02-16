@@ -2,3 +2,4 @@
 .config/cache
 
 .zhistory
+.config/lazygit/state.yml

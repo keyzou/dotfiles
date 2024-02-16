@@ -25,7 +25,7 @@ source "$ZDOTDIR/plugins.zsh"
 source "$ZDOTDIR/env.zsh"
 source "$ZDOTDIR/aliases.zsh"
 
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 autoload -Uz compinit && compinit
