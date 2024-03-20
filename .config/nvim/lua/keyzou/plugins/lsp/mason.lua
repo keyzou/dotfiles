@@ -34,6 +34,7 @@ return {
 				"svelte",
 				"eslint",
 				"lua_ls",
+				"gopls",
 				"graphql",
 				"emmet_ls",
 				"prismals",
@@ -47,8 +48,9 @@ return {
 			ensure_installed = {
 				"stylua", -- lua formatter
 				"ruff",
-				"prettier",
+				"prettierd",
 				"eslint_d",
+				"rustywind",
 			},
 		})
 	end,

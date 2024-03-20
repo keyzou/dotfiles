@@ -44,6 +44,7 @@ return {
 					"query",
 					"python",
 					"rust",
+					"go",
 				},
 				incremental_selection = {
 					enable = true,

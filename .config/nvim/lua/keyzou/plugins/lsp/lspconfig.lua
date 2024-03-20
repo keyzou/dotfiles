@@ -8,6 +8,7 @@ return {
 	config = function()
 		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
+		local util = require("lspconfig/util")
 
 		-- import cmp-nvim-lsp plugin
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -57,6 +58,9 @@ return {
 
 			opts.desc = "Restart LSP"
 			keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+			opts.desc = "Organize Imports"
+			keymap.set("n", "<leader>oi", "<cmd>OrganizeImports<CR>", opts) -- mapping to organize imports
 		end
 
 		-- used to enable autocompletion (assign to every lsp server config)
@@ -70,6 +74,32 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
+		local function organize_imports()
+			local params = {
+				command = "_typescript.organizeImports",
+				arguments = { vim.api.nvim_buf_get_name(0) },
+			}
+
+			vim.lsp.buf.execute_command(params)
+		end
+
+		lspconfig["gopls"].setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			cmd = { "gopls" },
+			filetypes = { "go", "gomod", "gowork", "gotmpl" },
+			root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+			settings = {
+				gopls = {
+					completeUnimported = true,
+					usePlaceholders = true,
+					analyses = {
+						unusedparams = true,
+					},
+				},
+			},
+		})
+
 		-- configure html server
 		lspconfig["html"].setup({
 			capabilities = capabilities,
@@ -80,6 +110,17 @@ return {
 		lspconfig["tsserver"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+			init_options = {
+				preferences = {
+					disableSuggestions = true,
+				},
+			},
+			commands = {
+				OrganizeImports = {
+					organize_imports,
+					description = "Organize Imports",
+				},
+			},
 		})
 
 		lspconfig["eslint"].setup({
@@ -139,12 +180,6 @@ return {
 
 		-- configure python server
 		lspconfig["ruff_lsp"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure rust server
-		lspconfig["rust_analyzer"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
