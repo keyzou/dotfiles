@@ -19,6 +19,7 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+
 ### End of Zinit's installer chunk
 
 source "$ZDOTDIR/plugins.zsh"
@@ -28,7 +29,6 @@ source "$ZDOTDIR/aliases.zsh"
 eval "$(zoxide init --cmd cd zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-autoload -Uz compinit && compinit
 
 # pnpm
 export PNPM_HOME="/home/keyzou/.local/share/pnpm"
