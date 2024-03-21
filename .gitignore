@@ -4,3 +4,5 @@
 .zhistory
 .config/lazygit/state.yml
 .config/zsh/.zcompdump
+.config/chromium
+.config/go
