@@ -14,9 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("lazy").setup({ { import = "keyzou.plugins" }, { import = "keyzou.plugins.lsp" } }, {
-	install = {
-		colorscheme = { "catppuccin-mocha" },
-	},
 	checker = {
 		enabled = true,
 		notify = false,

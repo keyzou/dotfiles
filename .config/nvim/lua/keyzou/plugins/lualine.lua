@@ -6,6 +6,7 @@ return {
 			options = {
 				theme = "catppuccin",
 			},
+			extensions = { "quickfix", "nvim-tree", "trouble", "fzf", "lazy" },
 		})
 	end,
 }

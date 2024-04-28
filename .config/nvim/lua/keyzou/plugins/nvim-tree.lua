@@ -12,6 +12,12 @@ return {
 		nvimtree.setup({
 			view = {
 				width = 35,
+				relativenumber = true,
+			},
+			renderer = {
+				indent_markers = {
+					enable = true,
+				},
 			},
 			-- disable window_picker for
 			-- explorer to work well with
@@ -56,6 +62,7 @@ return {
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>e", "<cmd>NvimTreeFindFile<CR>", { desc = "Focus file explorer" }) -- toggle file explorer
+		keymap.set("n", "<leader>ee", "<cmd>NvimTreeFindFile<CR>", { desc = "Focus file explorer" }) -- toggle file explorer
+		keymap.set("n", "<leader>ex", "<cmd>NvimTreeClose<CR>", { desc = "Close file explorer" }) -- toggle file explorer
 	end,
 }

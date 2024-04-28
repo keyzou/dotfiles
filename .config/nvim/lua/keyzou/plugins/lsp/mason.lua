@@ -38,7 +38,7 @@ return {
 				"graphql",
 				"emmet_ls",
 				"prismals",
-				"ruff_lsp",
+				"pylsp",
 			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true, -- not the same as ensure_installed
@@ -49,8 +49,8 @@ return {
 				"stylua", -- lua formatter
 				"ruff",
 				"prettierd",
-				"eslint_d",
 				"rustywind",
+				"pylsp",
 			},
 		})
 	end,
