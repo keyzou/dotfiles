@@ -5,6 +5,21 @@ format = "[$user]($style) "
 disabled = false
 show_always = true
 
+[docker_context]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[ruby]
+disabled = true
+
+[aws]
+disabled = true
+
 [character]                            # The name of the module we are configuring is "character"
 success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 error_symbol = "[✗](bold red)"

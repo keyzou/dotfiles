@@ -29,6 +29,7 @@ return {
 					},
 				},
 			},
+			update_focused_file = { enable = true },
 			filters = {
 				custom = { ".DS_Store" },
 			},
