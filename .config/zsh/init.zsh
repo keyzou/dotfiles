@@ -1,12 +1,14 @@
 #!/usr/bin/env zsh
 
-eval "$(brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.asdf/asdf.sh"
 eval $(ssh-agent -s) 1> /dev/null
-# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#   exec tmux
-# fi
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
 fpath=(${ASDF_DIR}/completions $fpath)
+
+export PATH="$PATH:$(yarn global bin)"
 
 eval "$(zoxide init --cmd cd zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -17,5 +19,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
+#
 eval "$(starship init zsh)"
