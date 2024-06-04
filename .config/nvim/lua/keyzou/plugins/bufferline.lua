@@ -4,7 +4,6 @@ return {
 	version = "*",
 	config = function()
 		require("bufferline").setup({
-			highlights = require("catppuccin.groups.integrations.bufferline").get(),
 			options = {
 				separator_style = "thin",
 				diagnostics = "nvim_lsp",

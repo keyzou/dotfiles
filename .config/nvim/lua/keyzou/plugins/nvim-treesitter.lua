@@ -31,6 +31,7 @@ return {
 					"yaml",
 					"html",
 					"css",
+					"vue",
 					"prisma",
 					"markdown",
 					"markdown_inline",
