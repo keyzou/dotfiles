@@ -1,2 +1,8 @@
 .config/*
+!.config/nvim
+!.config/zsh
+!.config/lazygit
+!.config/tmux
+!.config/starship.toml
+!.config/alacritty.toml
 .zhistory
