@@ -1,11 +1,2 @@
-.config/local
-.config/cache
-
+.config/*
 .zhistory
-.config/lazygit/state.yml
-.config/zsh/.zcompdump
-.config/chromium
-.config/go
-.config/yarn
-.config/dlv
-.config/.nuxt

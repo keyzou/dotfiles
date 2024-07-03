@@ -18,6 +18,6 @@ keymap.set("n", "<leader>sh", "<C-w>s") -- split horizontally
 keymap.set("n", "<leader>se", "<C-w>=") -- balance panes
 keymap.set("n", "<leader>sx", "<cmd>close<CR>") -- close current pane
 keymap.set("n", "<leader>ih", function()
-	vim.lsp.inlay_hint(0, nil)
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(nil))
 end, { desc = "Toggle inlay hints" })
 -- tabs

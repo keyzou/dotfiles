@@ -4,6 +4,10 @@ return {
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
+		{ "williamboman/mason.nvim" },
+	},
+	opts = {
+		inlay_hints = { enabled = true },
 	},
 	config = function()
 		-- import lspconfig plugin
@@ -50,19 +54,20 @@ return {
 				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 				opts.desc = "Go to previous diagnostic"
-				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+				keymap.set("n", "[d", function()
+					vim.diagnostic.jump({ count = -1 })
+				end, opts) -- jump to previous diagnostic in buffer
 
 				opts.desc = "Go to next diagnostic"
-				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+				keymap.set("n", "]d", function()
+					vim.diagnostic.jump({ count = 1 })
+				end, opts) -- jump to next diagnostic in buffer
 
 				opts.desc = "Show documentation for what is under cursor"
 				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-
-				opts.desc = "Organize Imports"
-				keymap.set("n", "<leader>oi", "<cmd>OrganizeImports<CR>", opts) -- mapping to organize imports
 			end,
 		})
 
@@ -77,15 +82,6 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
-		local function organize_imports()
-			local params = {
-				command = "_typescript.organizeImports",
-				arguments = { vim.api.nvim_buf_get_name(0) },
-			}
-
-			vim.lsp.buf.execute_command(params)
-		end
-
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				lspconfig[server_name].setup({
@@ -95,6 +91,25 @@ return {
 			["lua_ls"] = function()
 				lspconfig["lua_ls"].setup({
 					capabilities = capabilities,
+					on_init = function(client)
+						local path = client.workspace_folders[1].name
+						if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
+							return
+						end
+
+						client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+							runtime = {
+								-- Tell the language server which version of Lua you're using
+								-- (most likely LuaJIT in the case of Neovim)
+								version = "LuaJIT",
+							},
+							-- Make the server aware of Neovim runtime files
+							workspace = {
+								checkThirdParty = false,
+								library = vim.api.nvim_get_runtime_file("", true),
+							},
+						})
+					end,
 					settings = { -- custom settings for lua
 						Lua = {
 							-- make the language server recognize "vim" global
@@ -129,22 +144,6 @@ return {
 					},
 				})
 			end,
-			["tsserver"] = function()
-				lspconfig["tsserver"].setup({
-					capabilities = capabilities,
-					init_options = {
-						preferences = {
-							disableSuggestions = true,
-						},
-					},
-					commands = {
-						OrganizeImports = {
-							organize_imports,
-							description = "Organize Imports",
-						},
-					},
-				})
-			end,
 			["tailwindcss"] = function()
 				local tw = require("lspconfig.server_configurations.tailwindcss")
 				-- configure tailwindcss server
@@ -165,6 +164,7 @@ return {
 						"scss",
 						"less",
 						"svelte",
+						"astro",
 					},
 				})
 			end,
@@ -177,6 +177,21 @@ return {
 								ruff = {
 									enabled = true,
 									targetVesion = "py37",
+								},
+							},
+						},
+					},
+				})
+			end,
+			["sqls"] = function()
+				lspconfig["sqls"].setup({
+					capabilities = capabilities,
+					settings = {
+						sqls = {
+							connections = {
+								{
+									driver = "sqlite3",
+									dataSourceName = "file:~/dev/personal/exile-codex/go/local.db",
 								},
 							},
 						},

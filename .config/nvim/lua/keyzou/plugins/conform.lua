@@ -2,6 +2,17 @@ return {
 	"stevearc/conform.nvim",
 	lazy = true,
 	event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+	keys = {
+		{
+			-- Customize or remove this keymap to your liking
+			"<leader>mp",
+			function()
+				require("conform").format({ async = true, lsp_format = "fallback" })
+			end,
+			mode = "",
+			desc = "Format buffer",
+		},
+	},
 	config = function()
 		local conform = require("conform")
 
@@ -16,25 +27,22 @@ return {
 				html = { "prettier", "rustywind" },
 				json = { "prettier" },
 				yaml = { "prettier" },
-				markdown = { "prettier" },
 				graphql = { "prettier" },
 				lua = { "stylua" },
 				python = { "ruff_fix", "ruff_format" },
-				go = { "gofumpt", "goimports-reviser", "golines" },
+				go = { "goimports-reviser", "golines" },
 			},
-			format_on_save = {
-				lsp_fallback = true,
-				async = false,
+			format_after_save = {
+				lsp_format = "fallback",
+				async = true,
 				timeout_ms = 1000,
 			},
 		})
 
-		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			})
-		end, { desc = "Format file or range (in visual mode)" })
+		conform.formatters["goimports-reviser"] = function(bufnr)
+			return {
+				prepend_args = { "-rm-unused" },
+			}
+		end
 	end,
 }

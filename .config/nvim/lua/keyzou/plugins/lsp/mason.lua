@@ -23,6 +23,17 @@ return {
 				},
 			},
 		})
+		mason_tool_installer.setup({
+			ensure_installed = {
+				"stylua", -- lua formatter
+				"ruff",
+				"lua-language-server",
+				"prettierd",
+				"rustywind",
+				"pylsp",
+				"sqls",
+			},
+		})
 
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
@@ -39,19 +50,11 @@ return {
 				"emmet_ls",
 				"prismals",
 				"pylsp",
+				"astro",
+				"sqls",
 			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true, -- not the same as ensure_installed
-		})
-
-		mason_tool_installer.setup({
-			ensure_installed = {
-				"stylua", -- lua formatter
-				"ruff",
-				"prettierd",
-				"rustywind",
-				"pylsp",
-			},
 		})
 	end,
 }

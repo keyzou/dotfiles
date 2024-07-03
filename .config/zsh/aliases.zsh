@@ -22,3 +22,6 @@ alias l.="eza -a | grep -E '^\.'"
 
 alias v='nvim'
 alias vim='nvim'
+
+
+alias reload='source ${ZDOTDIR:-$HOME}/.zshrc'

@@ -2,7 +2,13 @@ return {
 	"olexsmir/gopher.nvim",
 	ft = "go",
 	config = function(_, opts)
-		require("gopher").setup(opts)
+		require("gopher").setup({
+			settings = {
+				gopls = {
+					gofumpt = true,
+				},
+			},
+		})
 
 		vim.keymap.set("n", "<leader>gie", "<cmd>GoIfErr<CR>")
 

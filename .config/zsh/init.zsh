@@ -3,9 +3,6 @@
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.asdf/asdf.sh"
 eval $(ssh-agent -s) 1> /dev/null
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
 fpath=(${ASDF_DIR}/completions $fpath)
 
 export PATH="$PATH:$(yarn global bin)"

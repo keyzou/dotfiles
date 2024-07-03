@@ -62,8 +62,13 @@ return {
 		})
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
-
 		keymap.set("n", "<leader>ee", "<cmd>NvimTreeFindFile<CR>", { desc = "Focus file explorer" }) -- toggle file explorer
 		keymap.set("n", "<leader>ex", "<cmd>NvimTreeClose<CR>", { desc = "Close file explorer" }) -- toggle file explorer
+		keymap.set("n", "<leader>yf", function()
+			local filepath = vim.fn.expand("%:p")
+			local relative_path = vim.fn.fnamemodify(filepath, ":~:.")
+			vim.fn.setreg("+", relative_path)
+			vim.notify("Copied path: " .. relative_path, vim.log.levels.INFO)
+		end, { desc = "Copy current file's relative path" })
 	end,
 }
