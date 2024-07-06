@@ -1,7 +1,7 @@
 .config/*
 !.config/nvim
 !.config/zsh
-!.config/lazygit
+!.config/lazygit/config.yml
 !.config/tmux
 !.config/starship.toml
 !.config/alacritty.toml
