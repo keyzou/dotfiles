@@ -5,7 +5,7 @@ return {
 		priority = 1000,
 		config = function()
 			require("tokyonight").setup({
-				style = "night",
+				style = "moon",
 				transparent = true,
 				styles = {
 					sidebars = "transparent",
@@ -13,20 +13,24 @@ return {
 				},
 				lualine_bold = true,
 				dim_inactive = true,
+				cache = true,
 				on_colors = function(colors)
 					colors.bg_statusline = colors.none
 				end,
-				---@param hl Highlights
+				---@param highlights tokyonight.Highlights
 				---@param colors ColorScheme
-				on_highlights = function(hl, colors)
-					hl.CursorComment = {
-						bg = hl.CursorLine.bg,
-						fg = colors.comment,
-					}
+				on_highlights = function(highlights, colors)
+					highlights.Function = vim.tbl_extend("keep", highlights.Function, {
+						bold = true,
+					})
 				end,
+				plugins = {
+					all = package.loaded.lazy == nil,
+					auto = true,
+				},
 			})
 
-			vim.cmd([[colorscheme tokyonight]])
+			vim.cmd([[colorscheme tokyonight-moon]])
 		end,
 	},
 }
