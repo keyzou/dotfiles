@@ -1,8 +1,0 @@
-vim.api.nvim_create_user_command("HexToOKLCH", function()
-	vim.ui.input({ prompt = "Enter your color" }, function(input)
-		local colors = require("mini.colors")
-		local res = colors.convert(input, "oklch")
-		local output = string.format("oklch(%.2f%% %.3f%% %.2f)", res.l, res.c, res.h)
-		vim.api.nvim_command('let @+ = "' .. output .. '"')
-	end)
-end, {})

@@ -5,4 +5,6 @@
 !.config/tmux
 !.config/starship.toml
 !.config/alacritty.toml
+
+.config/zsh/secrets.zsh
 .zhistory
