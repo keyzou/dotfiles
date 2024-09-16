@@ -11,5 +11,3 @@ export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
 
 export TERM='xterm-256color'
-
-. "$HOME/.cargo/env"
