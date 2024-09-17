@@ -1,12 +1,5 @@
-.config/*
-!.config/nvim
-!.config/zsh
-!.config/lazygit/config.yml
-!.config/tmux
-!.config/starship.toml
-!.config/alacritty.toml
-
 .config/zsh/secrets.zsh
 .zhistory
+.config/zsh/custom.zsh
 .config/lazygit/state.yml
 .config/zsh/.zcompdump

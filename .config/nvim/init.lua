@@ -168,7 +168,6 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -497,6 +496,7 @@ require('lazy').setup({
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map("D", vim.diagnostic.open_float, 'Open [D]iagnostics') -- show diagnostics for line
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -622,6 +622,7 @@ require('lazy').setup({
         'cssls',
         'tailwindcss',
         'markdownlint',
+        'emmet_ls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

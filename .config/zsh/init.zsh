@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-eval "$(/home/keyzou/.local/bin/mise activate zsh)"
 eval $(ssh-agent -s) 1> /dev/null
-
-export PATH="$PATH:$(yarn global bin)"
+if [[ -v ENABLE_HOMEBREW && $ENABLE_HOMEBREW = "on" ]]; then 
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 
+fi
 
 eval "$(zoxide init --cmd cd zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -14,5 +14,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-#
+
 eval "$(starship init zsh)"

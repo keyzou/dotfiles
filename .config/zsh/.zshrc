@@ -58,6 +58,12 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --group-directories-first --icons $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always --group-directories-first --icons $realpath'
 
+source ~/.config/zsh/options.zsh
 source ~/.config/zsh/aliases.zsh
 source ~/.config/zsh/env.zsh
 source ~/.config/zsh/init.zsh
+[ -f ~/.config/zsh/secrets.zsh ] && source ~/.config/zsh/secrets.zsh
+# Computer / env specific configuration
+[ -f ~/.config/zsh/custom.zsh ] && source ~/.config/zsh/custom.zsh
+
+fpath+=${ZDOTDIR:-~}/.zsh_functions
