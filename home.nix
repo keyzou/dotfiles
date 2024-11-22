@@ -17,39 +17,11 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
+  # home.packages = [];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
+  # home.file = {};
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -69,6 +41,31 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    EZA_CONFIG_DIR = "$XDG_CONFIG_HOME/eza";
+    FZF_DEFAULT_OPTS = "$FZF_DEFAULT_OPTS \
+      --highlight-line \
+      --info=inline-right \
+      --ansi \
+      --layout=reverse \
+      --border=none
+      --color=bg+:#2e3c64 \
+      --color=bg:#1f2335 \
+      --color=border:#29a4bd \
+      --color=fg:#c0caf5 \
+      --color=gutter:#1f2335 \
+      --color=header:#ff9e64 \
+      --color=hl+:#2ac3de \
+      --color=hl:#2ac3de \
+      --color=info:#545c7e \
+      --color=marker:#ff007c \
+      --color=pointer:#ff007c \
+      --color=prompt:#2ac3de \
+      --color=query:#c0caf5:regular \
+      --color=scrollbar:#29a4bd \
+      --color=separator:#ff9e64 \
+      --color=spinner:#ff007c \
+    ";
   };
 
   # Let Home Manager install and manage itself.
@@ -81,8 +78,35 @@
     defaultEditor = true;
   };
 
-  programs.zsh.enable = true;
-  programs.zsh.dotDir = "dotfiles/.config/zsh";
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      ls = "eza --color=always --group-directories-first --icons";
+      ll = "eza -la --icons --octal-permissions --group-directories-first";
+      l = "eza -bGF --header --git --color=always --group-directories-first --icons";
+      llm = "eza -lbGd --header --git --sort=modified --color=always --group-directories-first --icons" ;
+      la = "eza --long --all --group --group-directories-first";
+      lx = "eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale --color=always --group-directories-first --icons";
+
+      lS = "eza -1 --color=always --group-directories-first --icons";
+      lt = "eza --tree --level=2 --color=always --group-directories-first --icons";
+    };
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "git"
+        "sudo"
+      ];
+    };
+    
+    syntaxHighlighting = {
+      enable = true;
+    };
+
+    autosuggestion = {
+      enable = true;
+    };
+  };
 
   programs.starship.enable = true;
   programs.starship.enableZshIntegration = true;
@@ -99,9 +123,44 @@
 
   programs.ssh.enable = true;
 
+  programs.ripgrep.enable = true;
+  programs.jq.enable = true;
+
+  programs.bat = {
+    enable = true;
+  };
+
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      gui.nerdFontsVersion = "3";
+      gui.theme = {
+        activeBorderColor = [ "#ff9e64" "bold" ];
+        inactiveBorderColor = [ "#29a4bd" ];
+        searchingActiveBorderColor = [ "#ff9e64" "bold" ];
+        optionsTextColor = [ "#7aa27f" ];
+        selectedLineBgColor = [ "#2e3c64" ];
+        cherryPickedCommitFgColor = [ "#7aa2f7" ];
+        cherryPickedCommitBgColor = [ "#bb9af7" ];
+        markedPickedCommitFgColor = [ "#7aa2f7" ];
+        markedPickedCommitBgColor = [ "#e0af68" ];
+        unstagedChangesColor = [ "#db4b4b" ];
+        defaultFgColor = [ "#c0caf5" ];
+      };
+    };
+  };
+
+  programs.eza.enable = true;
+  programs.eza.enableZshIntegration = true;
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.mise.enable = true;
+  programs.mise.enableZshIntegration = true;
+
+  programs.go.enable = true;
 
 }
