@@ -3,11 +3,10 @@ return {
   {
     -- Gives context lines at the top of the editor for the current cursor position
     'nvim-treesitter/nvim-treesitter-context',
-    lazy = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('treesitter-context').setup()
-    end,
+    opts = {
+      enabled = true,
+    },
   },
   -- Context-aware comment strings (mostly for JS/TS)
   'JoosepAlviste/nvim-ts-context-commentstring',

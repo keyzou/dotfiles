@@ -159,6 +159,11 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.smartindent = true
+vim.opt.list = false
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -496,7 +501,7 @@ require('lazy').setup({
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map("D", vim.diagnostic.open_float, 'Open [D]iagnostics') -- show diagnostics for line
+          map('D', vim.diagnostic.open_float, 'Open [D]iagnostics') -- show diagnostics for line
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -563,6 +568,9 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      --
+      -- For Godot, Mason-lspconfig doesn't handle the LSP so we have to do it manually.
+      require('lspconfig').gdscript.setup {}
       local servers = {
         -- clangd = {},
         -- gopls = {},
@@ -601,6 +609,8 @@ require('lazy').setup({
             },
           },
         },
+
+        gopls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -620,9 +630,12 @@ require('lazy').setup({
         'basedpyright',
         'html',
         'cssls',
-        'tailwindcss',
+        'prettierd',
+        'biome',
         'markdownlint',
         'emmet_ls',
+        'gdtoolkit',
+        'gopls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -657,7 +670,7 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
+      format_after_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
@@ -667,20 +680,27 @@ require('lazy').setup({
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
         }
       end,
+      formatters = {
+        ['goimports-reviser'] = {
+          prepend_args = {
+            '-rm-unused',
+          },
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
-        javascript = { 'prettierd' },
-        typescript = { 'prettierd' },
-        javascriptreact = { 'prettierd', 'rustywind' },
-        typescriptreact = { 'prettierd', 'rustywind' },
+        javascript = { 'biome' },
+        typescript = { 'biome' },
+        javascriptreact = { 'biome', 'rustywind' },
+        typescriptreact = { 'biome', 'rustywind' },
         svelte = { 'prettierd' },
         css = { 'prettierd' },
         html = { 'prettierd', 'rustywind' },
-        json = { 'prettierd' },
         yaml = { 'prettierd' },
         graphql = { 'prettierd' },
         python = { 'ruff_fix', 'ruff_format' },
         go = { 'goimports-reviser', 'golines' },
+        gdscript = { 'gdformat' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -830,33 +850,32 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    config = function()
-      require('tokyonight').setup {
-        style = 'moon',
-        transparent = true,
-        styles = {
-          sidebars = 'transparent',
-          floats = 'transparent',
-        },
-        lualine_bold = true,
-        dim_inactive = true,
-        cache = true,
-        on_colors = function(colors)
-          colors.bg_statusline = colors.none
-        end,
-        ---@param highlights tokyonight.Highlights
-        ---@param colors ColorScheme
-        on_highlights = function(highlights, colors)
-          highlights.LspInlayHint = vim.tbl_extend('force', highlights.LspInlayHint, {
-            bg = colors.none,
-          })
-        end,
-        plugins = {
-          all = package.loaded.lazy == nil,
-          auto = true,
-        },
-      }
-    end,
+    opts = {
+      style = 'night',
+      styles = {
+        sidebars = 'transparent',
+        floats = 'transparent',
+      },
+      lualine_bold = true,
+      dim_inactive = true,
+      cache = true,
+      on_colors = function(colors)
+        colors.bg_statusline = colors.none
+      end,
+      ---@param highlights tokyonight.Highlights
+      ---@param colors ColorScheme
+      on_highlights = function(highlights, colors)
+        highlights.LspInlayHint = vim.tbl_extend('force', highlights.LspInlayHint, {
+          bg = colors.none,
+        })
+        highlights.SnacksIndent = { fg = '#232433', nocombine = true }
+        highlights.SnacksIndentScope = { fg = colors.fg_gutter, nocombine = true }
+      end,
+      plugins = {
+        all = package.loaded.lazy == nil,
+        auto = true,
+      },
+    },
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
@@ -917,12 +936,12 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'templ' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
         enable = true,
-        disable = { 'neo-tree' },
+        disable = { 'neo-tree', 'json' },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
@@ -955,10 +974,10 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
