@@ -120,6 +120,11 @@
   programs.git.enable = true;
   programs.git.userName = "keyzou";
   programs.git.userEmail = "keyzou95@gmail.com";
+  programs.git.extraConfig = {
+    pull = {
+      rebase = true;
+    };
+  };
 
   programs.ssh.enable = true;
 
@@ -160,7 +165,5 @@
 
   programs.mise.enable = true;
   programs.mise.enableZshIntegration = true;
-
-  programs.go.enable = true;
 
 }
