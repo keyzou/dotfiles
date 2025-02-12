@@ -116,9 +116,7 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+vim.opt.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -602,15 +600,21 @@ require('lazy').setup({
 
         basedpyright = {
           settings = {
+            basedpyright = {
+              disableOrganizeImports = true,
+            },
             python = {
               analysis = {
-                reportImplicitOverride = 'none',
+                ignore = { '*' },
               },
             },
           },
         },
 
+        ruff = {},
+
         gopls = {},
+        revive = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -631,11 +635,13 @@ require('lazy').setup({
         'html',
         'cssls',
         'prettierd',
+        'revive',
         'biome',
         'markdownlint',
         'emmet_ls',
         'gdtoolkit',
         'gopls',
+        'gofumpt',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -689,17 +695,17 @@ require('lazy').setup({
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        javascript = { 'biome' },
-        typescript = { 'biome' },
-        javascriptreact = { 'biome', 'rustywind' },
-        typescriptreact = { 'biome', 'rustywind' },
+        javascript = { 'biome-check' },
+        typescript = { 'biome-check' },
+        javascriptreact = { 'biome-check', 'rustywind' },
+        typescriptreact = { 'biome-check', 'rustywind' },
         svelte = { 'prettierd' },
         css = { 'prettierd' },
         html = { 'prettierd', 'rustywind' },
         yaml = { 'prettierd' },
         graphql = { 'prettierd' },
         python = { 'ruff_fix', 'ruff_format' },
-        go = { 'goimports-reviser', 'golines' },
+        go = { 'goimports-reviser', 'golines', 'gofumpt' },
         gdscript = { 'gdformat' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
@@ -948,6 +954,7 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+      autopairs = { enable = true },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
