@@ -67,3 +67,11 @@ source ~/.config/zsh/init.zsh
 [ -f ~/.config/zsh/custom.zsh ] && source ~/.config/zsh/custom.zsh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+# pnpm
+export PNPM_HOME="/home/keyzou/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
