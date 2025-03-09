@@ -75,3 +75,17 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+  if ! systemctl --user is-active --quiet tmux.service; then
+  systemctl --user start tmux.service
+  fi
+  exec tmux attach-session -d -t "${USER}" >/dev/null 2>&1
+fi
+
+# fnm
+FNM_PATH="/home/keyzou/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/keyzou/.local/share/fnm:$PATH"
+  eval "`fnm env --use-on-cd --shell zsh`"
+fi
