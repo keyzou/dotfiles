@@ -515,6 +515,12 @@ require('lazy').setup({
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client ~= nil then
+            if client.name == 'ruff' then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          end
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -704,7 +710,7 @@ require('lazy').setup({
         html = { 'prettierd', 'rustywind' },
         yaml = { 'prettierd' },
         graphql = { 'prettierd' },
-        python = { 'ruff_fix', 'ruff_format' },
+        python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
         go = { 'goimports-reviser', 'golines', 'gofumpt' },
         gdscript = { 'gdformat' },
         -- Conform can also run multiple formatters sequentially
