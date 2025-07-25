@@ -41,3 +41,5 @@ adw-toolbar-style = flat
 
 keybind = global:unconsumed:ctrl+shift+right=unbind
 keybind = global:unconsumed:ctrl+shift+left=unbind
+
+macos-option-as-alt = left
