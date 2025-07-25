@@ -2,7 +2,7 @@
 
 eval $(ssh-agent -s) 1> /dev/null
 if [[ -v ENABLE_HOMEBREW && $ENABLE_HOMEBREW = "on" ]]; then 
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 
+  eval "$(/opt/homebrew/bin/brew shellenv)" 
 fi
 
 eval "$(zoxide init --cmd cd zsh)"
@@ -16,3 +16,4 @@ esac
 # pnpm end
 
 eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
