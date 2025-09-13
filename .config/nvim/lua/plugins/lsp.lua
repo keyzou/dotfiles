@@ -2,6 +2,7 @@ return {
   "neovim/nvim-lspconfig",
   opts = {
     servers = {
+      emmet_language_server = {},
       ruff = {
         on_attach = function(client, bufnr_attached)
           _ = client
