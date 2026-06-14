@@ -9,7 +9,7 @@ vim.pack.add({
     "https://github.com/folke/snacks.nvim",
     "https://github.com/MunifTanjim/nui.nvim",
     "https://github.com/folke/noice.nvim",
-    "https://github.com/nickjvandyke/opencode.nvim",
+    "https://github.com/folke/sidekick.nvim",
 })
 
 -- Mini files --
@@ -150,14 +150,14 @@ require("snacks").setup({
     picker = {
         enabled = true,
         actions = {
-            opencode_send = function(...)
-                return require("opencode").snacks_picker_send(...)
+            sidekick_send = function(...)
+                return require("sidekick.cli.picker.snacks").send(...)
             end,
         },
         win = {
             input = {
                 keys = {
-                    ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
+                    ["<a-a>"] = { "sidekick_send", mode = { "n", "i" } },
                 },
             },
         },
@@ -165,7 +165,7 @@ require("snacks").setup({
 })
 vim.o.statuscolumn = "%=%{v:relnum?v:relnum:v:lnum} %#Normal# "
 
-require("opencode_config")
+require("sidekick_config")
 
 require("noice").setup({
     routes = {

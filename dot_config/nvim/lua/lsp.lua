@@ -20,6 +20,14 @@ vim.lsp.config("lua_ls", {
     }
 })
 
+vim.lsp.config("copilot", {})
+
 vim.lsp.enable({
-    "lua_ls"
+    "copilot",
+    "lua_ls",
+    "ruff",
+    "basedpyright",
+    "oxlint",
+    "eslint-lsp",
+    "angular-language-server",
 })
